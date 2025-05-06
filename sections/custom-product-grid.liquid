@@ -1,0 +1,103 @@
+{% if section.settings.collection != blank %}
+  {% assign collection = collections[section.settings.collection] %}
+  {% assign product_limit = section.settings.product_limit | default: 4 %}
+  {% assign bg_color = section.settings.bg_color | default: '#ffffff' %}
+
+  <div class="custom-grid" style="background-color: {{ bg_color }}; padding: 20px;">
+    {% if section.settings.show_heading %}
+      <h2 class="grid-heading">{{ section.settings.custom_heading }}</h2>
+    {% endif %}
+
+    <div class="product-grid">
+      {% for product in collection.products limit: product_limit %}
+        <div class="product-card">
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | img_url: '300x' }}" alt="{{ product.title }}">
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.price | money }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% else %}
+  <p>Please select a collection.</p>
+{% endif %}
+
+{% stylesheet %}
+    .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .product-card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    transition: box-shadow 0.2s;
+  }
+
+  .product-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .grid-heading {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom Product Grid",
+  "settings":[
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "select the collection"
+      },
+     {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Number of products to show",
+      "default": 4,
+      "min": 1,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "show heading",
+      "default" : true
+    },
+    {
+      "type": "text",
+      "id": "custom_heading",
+      "label": "Heading text",
+      "default" : "Our top peack-up"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "show title",
+      "default" : true,
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Choose the background color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name" : "Custom Product Grid"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,111 @@
+{%- if section.settings.collection != blank -%}
+  {%- assign collection = collections[section.settings.collection] -%}
+
+  <!-- Only show the collection title -->
+  <h2 class="collection-title">{{ collection.title }}</h2>
+
+  <!-- Show products (optional, but part of a product section) -->
+  <div
+    class="product-grid"
+    style="
+      background-color: {{ section.settings.background }};
+      padding: {{ section.settings.padding }}px;
+      color : {{ section.settings.font_color }};
+    "
+  >
+    {%- for product in collection.products limit: section.settings.product_limit -%}
+      <div class="product-item">
+        <a href="{{ product.url }}">
+          <img src="{{ product.featured_image | img_url: '300x' }}" alt="{{ product.title }}">
+          <h3>{{ product.title }}</h3>
+          <p>{{ product.price | money }}</p>
+        </a>
+        <form action="/card/add">
+          <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+          <button type="submit">Add to card</button>
+        </form>
+      </div>
+    {%- endfor -%}
+  </div>
+{%- else -%}
+  <p>Please select a collection in theme settings.</p>
+{%- endif -%}
+
+{% stylesheet %}
+  .product-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px
+  }
+  .product-item{
+    border: 1px solid black;
+    padding: 16px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #fff;
+  }
+  .product-item img{
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .product-item :hover{
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  .product-item button{
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 16px;
+  }
+  .product-item button :hover{
+    background-color: #444;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom product list",
+  "settings": [
+    {
+      "type":"color",
+      "id": "background",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "choose the collection"
+    },
+    {
+      "type": "number",
+      "id": "product_limit",
+      "label": "Number of Products",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default" : 0
+    },
+     {
+      "type": "color",
+      "id": "font_color",
+      "label": "Font color",
+      "default" : "#ffffff"
+    },
+  ],
+  "presets": [{
+    "name": "Custom product list"
+  }]
+}
+{% endschema %}

@@ -1,11 +1,12 @@
 <div class="feature-grid">
   {% for block in section.blocks %}
-  {% when 'feature' %}
-    {% render 'feature-card',
-      icon: block.settings.icon,
-      title: block.settings.title,
-      description: block.settings.description
-    %}
+    {% if block.type == 'feature' %}
+      {% render 'feature-card',
+        icon: block.settings.icon,
+        title: block.settings.heading,
+        description: block.settings.description
+      %}
+    {% endif %}
   {% endfor %}
 </div>
 {% schema %}
