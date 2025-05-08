@@ -1,0 +1,70 @@
+<section class="html-structure">
+  <header class="header">
+    <h1>{{ section.settings.title }}</h1>
+  </header>
+  <main>
+    <p>{{ settings.section.description }}</p>
+    <img src="{{ section.settings.logo | image_url: width: 800 }}" alt="Image description">
+  </main>
+  <footer class="footer">
+    <small>
+      © {{ 'now' | date: '%Y' }}
+      {{ shop.name -}}
+    </small>
+  </footer>
+</section>
+
+{% stylesheet %}
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  h1 {
+    text-align: center;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+  }
+  img {
+    max-width: 100%;
+    margin: auto;
+    height: auto;
+  }
+  footer {
+    text-align: center;
+    margin-top: 20px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "HTML Structure",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "My Document"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "This is a sample document"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HTML Structure"
+    }
+  ]
+}
+{% endschema %}

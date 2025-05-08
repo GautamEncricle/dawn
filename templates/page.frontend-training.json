@@ -1,0 +1,24 @@
+{
+    "name": "Frontend Training Page",
+    "section": {
+        "title-block": {
+            "type": "title"
+        },
+        "paragraph-block": {
+            "type": "paragraph",
+            "content": "Welcome to our Frontend Training Page! We offer comprehensive training programs in HTML, CSS, and JavaScript to help you build modern, responsive, and efficient web applications."
+        },
+        "button-block": {
+            "type": "button",
+        },
+        "product-card": {
+            "type": "product-card-demo"
+        }
+    },
+    "order": [
+        "title-block",
+        "paragraph-block",
+        "button-block",
+        "product-card"
+    ]
+}
