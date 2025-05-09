@@ -4,8 +4,7 @@
 {% assign selected_collection = collections[collection_handle] %}
 {% assign selected_title = section.settings.title %}
 
-{% comment %} Title {% endcomment %}
-<{{ tag }} class="frontend-title-section">
+<{{ tag }} class="pcd-title-section">
   {% if selected_collection == blank %}
     {% assign selected_collection = collections['new-arrival'] %}
   {% elsif selected_title != blank %}
@@ -15,41 +14,47 @@
   {% endif %}
 </{{ tag }}>
 
-{% comment %} product description {% endcomment %}
-<section class="frontend-paragraph-section">
+<section class="pcd-description-section">
   <main>
-    <p>{{ description }}</p>
+    <p class="pcd-description">{{ description }}</p>
   </main>
 </section>
 
-{% comment %} Product List {% endcomment %}
-<section class="product-card-demo">
+<section class="pcd-product-section">
   {% assign selected_collection = collections[section.settings.collection] %}
   {% if selected_collection == blank %}
     {% assign selected_collection = collections['new-arrival'] %}
   {% endif %}
 
-  <div class="product-grid">
+  <div class="pcd-product-grid">
     {% for product in selected_collection.products limit: section.settings.product_limit %}
       {% render 'product-card', product: product, button_type: section.settings.button_type %}
     {% else %}
-      <p>No products found in this collection.</p>
+      <p class="pcd-empty">No products found in this collection.</p>
     {% endfor %}
   </div>
 </section>
 
 {% stylesheet %}
-  .frontend-title-section {
+  .pcd-title-section {
     padding: 2rem;
     text-align: center;
     background-color: #f9f9f9;
     border-bottom: 1px solid #eee;
   }
-  .frontend-title-section h1,
-  .frontend-title-section h2,
-  .frontend-title-section h3 {
-    margin: 0;
-    font-family: sans-serif;
+  .pcd-description-section {
+    padding: 2em;
+    margin: 0 auto;
+    line-height: 1.6;
+    max-width: 800px;
+    font-size: large;
+  }
+  .pcd-product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin: auto;
+    padding: 20px;
   }
 {% endstylesheet %}
 

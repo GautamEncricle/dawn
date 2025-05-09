@@ -1,54 +1,48 @@
-<div class="product-card">
-  <a href="{{ product.url }}" class="product-link">
+<div class="pcd-product-card">
+  <a href="{{ product.url }}" class="pcd-product-link">
     <img
       src="{{ product.featured_image | image_url: width: 600 }}"
       alt="{{ product.title | escape }}"
-      class="product-image"
+      class="pcd-product-image"
+      loading="lazy"
+      width="600"
+      height="{{ 600 | divided_by: product.featured_image.aspect_ratio | round }}"
     >
-    <h3 class="product-title">{{ product.title }}</h3>
-    <p class="product-price">{{ product.price | money }}</p>
+    <h3 class="pcd-product-title">{{ product.title }}</h3>
+    <p class="pcd-product-price">{{ product.price | money }}</p>
   </a>
 
   {% if button_type == 'shop_now' %}
-    <a href="{{ product.url }}" class="product-button shop-now">Shop Now</a>
+    <a href="{{ product.url }}" class="pcd-button pcd-shop-now">Shop Now</a>
 
   {% elsif button_type == 'add_to_cart' %}
     {% if product.variants.size == 1 %}
       <button
-        class="product-button add-to-cart"
+        class="pcd-button pcd-add-to-cart"
       >
         Add to Cart
       </button>
     {% else %}
-      <a href="{{ product.url }}" class="product-button shop-now">Select Options</a>
+      <a href="{{ product.url }}" class="pcd-button pcd-shop-now">Select Options</a>
     {% endif %}
 
   {% elsif button_type == 'add_with_quantity' %}
     {% if product.variants.size == 1 %}
-      <div class="add-with-quantity">
-        {% comment %}
-          <input
-            type="number"
-            min="1"
-            value="1"
-            class="quantity-input"
-            data-variant-id="{{ product.variants.first.id }}"
-          >
-          <button
-            class="product-button add-to-cart-qty"
-            data-variant-id="{{ product.variants.first.id }}"
-          >
-            Add to Cart
-          </button>
-        {% endcomment %}
-        <form method="post" action="/cart/add">
+      <div class="pcd-quantity-wrapper">
+        <form method="post" action="/cart/add" class="pcd-quantity-form">
           <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-          <input min="1" type="number" id="quantity" name="quantity" value="1">
-          <input type="submit" value="Add to cart" class="btn">
+          <input
+            min="1"
+            type="number"
+            name="quantity"
+            value="1"
+            class="pcd-quantity-input"
+          >
+          <button type="submit" class="pcd-button pcd-add-to-cart-qty">Add to Cart</button>
         </form>
       </div>
     {% else %}
-      <a href="{{ product.url }}" class="product-button shop-now">Select Options</a>
+      <a href="{{ product.url }}" class="pcd-button pcd-shop-now">Select Options</a>
     {% endif %}
   {% endif %}
 </div>
