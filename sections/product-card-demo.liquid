@@ -1,0 +1,132 @@
+{% assign tag = section.settings.heading_level %}
+{% assign description = section.settings.description %}
+{% assign collection_handle = section.settings.collection %}
+{% assign selected_collection = collections[collection_handle] %}
+{% assign selected_title = section.settings.title %}
+
+{% comment %} Title {% endcomment %}
+<{{ tag }} class="frontend-title-section">
+  {% if selected_collection == blank %}
+    {% assign selected_collection = collections['new-arrival'] %}
+  {% elsif selected_title != blank %}
+    {{ selected_title }}
+  {% else %}
+    {{ selected_collection.title }}
+  {% endif %}
+</{{ tag }}>
+
+{% comment %} product description {% endcomment %}
+<section class="frontend-paragraph-section">
+  <main>
+    <p>{{ description }}</p>
+  </main>
+</section>
+
+{% comment %} Product List {% endcomment %}
+<section class="product-card-demo">
+  {% assign selected_collection = collections[section.settings.collection] %}
+  {% if selected_collection == blank %}
+    {% assign selected_collection = collections['new-arrival'] %}
+  {% endif %}
+
+  <div class="product-grid">
+    {% for product in selected_collection.products limit: section.settings.product_limit %}
+      {% render 'product-card', product: product, button_type: section.settings.button_type %}
+    {% else %}
+      <p>No products found in this collection.</p>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .frontend-title-section {
+    padding: 2rem;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eee;
+  }
+  .frontend-title-section h1,
+  .frontend-title-section h2,
+  .frontend-title-section h3 {
+    margin: 0;
+    font-family: sans-serif;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product Card Demo",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_level",
+      "label": "Heading Level",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "h3"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "description",
+      "default": "We selling our promise to full fill your satisfaction"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Number of Products",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "button_type",
+      "label": "Button Type",
+      "options": [
+        {
+          "label": "Add To Cart",
+          "value": "add_to_cart"
+        },
+        {
+          "label": "Shop Now",
+          "value": "shop_now"
+        },
+        {
+          "label": "Add With Quantity",
+          "value": "add_with_quantity"
+        }
+      ],
+      "default": "add_to_cart"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Card Demo"
+    }
+  ]
+}
+{% endschema %}

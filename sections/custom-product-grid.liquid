@@ -12,7 +12,7 @@
       {% for product in collection.products limit: product_limit %}
         <div class="product-card">
           <a href="{{ product.url }}">
-            <img src="{{ product.featured_image | img_url: '300x' }}" alt="{{ product.title }}">
+            <img src="{{ product.featured_image | img_url: '300px' }}" alt="{{ product.title }}">
             <h3>{{ product.title }}</h3>
             <p>{{ product.price | money }}</p>
           </a>
@@ -25,7 +25,7 @@
 {% endif %}
 
 {% stylesheet %}
-    .product-grid {
+  .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
@@ -54,13 +54,13 @@
 {% schema %}
 {
   "name": "Custom Product Grid",
-  "settings":[
-      {
-        "type": "collection",
-        "id": "collection",
-        "label": "select the collection"
-      },
-     {
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "select the collection"
+    },
+    {
       "type": "range",
       "id": "product_limit",
       "label": "Number of products to show",
@@ -73,19 +73,19 @@
       "type": "checkbox",
       "id": "show_heading",
       "label": "show heading",
-      "default" : true
+      "default": true
     },
     {
       "type": "text",
       "id": "custom_heading",
       "label": "Heading text",
-      "default" : "Our top peack-up"
+      "default": "Our top peack-up"
     },
     {
       "type": "checkbox",
       "id": "show_title",
       "label": "show title",
-      "default" : true,
+      "default": true
     },
     {
       "type": "color",
@@ -96,7 +96,7 @@
   ],
   "presets": [
     {
-      "name" : "Custom Product Grid"
+      "name": "Custom Product Grid"
     }
   ]
 }

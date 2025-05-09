@@ -1,0 +1,33 @@
+<section class="button-section">
+  <a
+    href="{{ section.settings.btn_url }}"
+    class="btn_block"
+  >
+    {{ section.settings.btn_name }}
+  </a>
+</section>
+
+{% schema %}
+{
+  "name": "Button Block",
+  "settings": [
+    {
+      "type": "text",
+      "id": "btn_name",
+      "label": "Button Text",
+      "default": "Shop all"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Add Button URL",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Button Block"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "product-card-demo": {
+      "type": "product-card-demo",
+      "settings": {
+        "collection": "accessories",
+        "product_limit": 4,
+        "button_type": "add_with_quantity"
+      }
+    },
+    "button-block": {
+      "type": "button",
+      "settings": {
+        "btn_name": "Shop all",
+        "btn_url": "shopify://collections/all"
+      }
+    },
+    "recently-viewed-block": {
+      "type": "recently-viewed-products",
+      "settings": {}
+    }
+  },
+  "order": [
+    "product-card-demo",
+    "button-block",
+    "recently-viewed-block"
+  ]
+}
