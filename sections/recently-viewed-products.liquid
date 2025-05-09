@@ -19,7 +19,7 @@
       let productsHTML = '';
 
       viewedProducts.forEach(function (handle) {
-        fetch(`/products/${handle}.js`) // Fetch the product data in JSON format
+        await fetch(`/products/${handle}.js`) // Fetch the product data in JSON format
           .then((response) => response.json())
           .then((product) => {
             // Format the price in the store's currency
