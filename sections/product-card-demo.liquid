@@ -1,62 +1,90 @@
-{% assign tag = section.settings.heading_level %}
-{% assign description = section.settings.description %}
-{% assign collection_handle = section.settings.collection %}
-{% assign selected_collection = collections[collection_handle] %}
-{% assign selected_title = section.settings.title %}
-
-<{{ tag }} class="pcd-title-section">
-  {% if selected_collection == blank %}
-    {% assign selected_collection = collections['new-arrival'] %}
-  {% elsif selected_title != blank %}
-    {{ selected_title }}
-  {% else %}
-    {{ selected_collection.title }}
-  {% endif %}
-</{{ tag }}>
-
-<section class="pcd-description-section">
-  <main>
-    <p class="pcd-description">{{ description }}</p>
-  </main>
-</section>
-
-<section class="pcd-product-section">
-  {% assign selected_collection = collections[section.settings.collection] %}
-  {% if selected_collection == blank %}
-    {% assign selected_collection = collections['new-arrival'] %}
+<div class="pcd-container">
+  {% if section.settings.title != blank %}
+    <{{ section.settings.heading_level }} class="pcd-heading">
+      {{ section.settings.title }}
+    </{{ section.settings.heading_level }}>
   {% endif %}
 
-  <div class="pcd-product-grid">
-    {% for product in selected_collection.products limit: section.settings.product_limit %}
-      {% render 'product-card', product: product, button_type: section.settings.button_type %}
-    {% else %}
-      <p class="pcd-empty">No products found in this collection.</p>
-    {% endfor %}
+  {% if section.settings.description != blank %}
+    <div class="pcd-description">
+      {{ section.settings.description }}
+    </div>
+  {% endif %}
+
+  <div class="pcd-grid-wrapper">
+    <div class="pcd-product-grid">
+      {% assign selected_collection = collections[section.settings.collection] | default: collections.all %}
+      {% for product in selected_collection.products limit: section.settings.product_limit %}
+        {% render 'product-card', product: product, button_type: section.settings.button_type %}
+      {% else %}
+        <p class="pcd-empty">No products found in this collection.</p>
+      {% endfor %}
+    </div>
   </div>
-</section>
+</div>
 
-{% stylesheet %}
-  .pcd-title-section {
-    padding: 2rem;
-    text-align: center;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #eee;
-  }
-  .pcd-description-section {
-    padding: 2em;
+<style>
+  .pcd-container {
+    max-width: 1400px;
     margin: 0 auto;
-    line-height: 1.6;
-    max-width: 800px;
-    font-size: large;
+    padding: 40px 20px;
+    text-align: center;
   }
+
+  .pcd-heading {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .pcd-description {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+    color: #666;
+  }
+
+  .pcd-grid-wrapper {
+    width: 100%;
+    overflow: hidden;
+  }
+
   .pcd-product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    margin: auto;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    justify-content: center;
+    margin: 0 auto;
   }
-{% endstylesheet %}
+
+  .pcd-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #666;
+  }
+
+  @media (max-width: 1024px) {
+    .pcd-product-grid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .pcd-product-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pcd-product-grid {
+      grid-template-columns: 1fr;
+      max-width: 350px;
+    }
+  }
+</style>
 
 {% schema %}
 {
@@ -72,25 +100,16 @@
       "id": "heading_level",
       "label": "Heading Level",
       "options": [
-        {
-          "value": "h1",
-          "label": "H1"
-        },
-        {
-          "value": "h2",
-          "label": "H2"
-        },
-        {
-          "value": "h3",
-          "label": "h3"
-        }
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "h3" }
       ],
-      "default": "h1"
+      "default": "h2"
     },
     {
       "type": "textarea",
       "id": "description",
-      "label": "description",
+      "label": "Description",
       "default": "We selling our promise to full fill your satisfaction"
     },
     {
@@ -105,25 +124,16 @@
       "min": 1,
       "max": 12,
       "step": 1,
-      "default": 4
+      "default": 8
     },
     {
       "type": "select",
       "id": "button_type",
       "label": "Button Type",
       "options": [
-        {
-          "label": "Add To Cart",
-          "value": "add_to_cart"
-        },
-        {
-          "label": "Shop Now",
-          "value": "shop_now"
-        },
-        {
-          "label": "Add With Quantity",
-          "value": "add_with_quantity"
-        }
+        { "label": "Add To Cart", "value": "add_to_cart" },
+        { "label": "Shop Now", "value": "shop_now" },
+        { "label": "Add With Quantity", "value": "add_with_quantity" }
       ],
       "default": "add_to_cart"
     }
